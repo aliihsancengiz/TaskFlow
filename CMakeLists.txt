@@ -8,8 +8,5 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(cdl-ex main1.cpp)
-target_link_libraries(cdl-ex cdl)
-
 add_executable(my-ex main.cpp)
 target_link_libraries(my-ex pthread)
