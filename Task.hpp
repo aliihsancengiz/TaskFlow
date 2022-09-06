@@ -1,5 +1,5 @@
 #pragma once
 
-struct task_base
+struct taskBase
 {
 };

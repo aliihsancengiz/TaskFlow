@@ -1,10 +1,10 @@
 #include <iostream>
 #include <functional>
 #include <memory>
+#include "WorkerGroup.hpp"
+#include "TaskListener.hpp"
 
-#include "task_listener.hpp"
-
-struct UploadTask : task_base
+struct UploadTask : taskBase
 {
 	UploadTask(std::string url, std::string filename) : _url(url), _filename(filename) {}
 	void upload_task()
@@ -16,7 +16,7 @@ private:
 	std::string _url, _filename;
 };
 
-struct DownloadTask : task_base
+struct DownloadTask : taskBase
 {
 	DownloadTask(std::string url, std::string filename) : _url(url), _filename(filename) {}
 	void download_task()
@@ -32,8 +32,8 @@ struct MyDeviceTaskListener : TaskListenerBase
 {
 	MyDeviceTaskListener(TaskChannel &ch) : TaskListenerBase(ch)
 	{
-		ch.register_task<UploadTask>(&MyDeviceTaskListener::handle_upload_task, this);
-		ch.register_task<DownloadTask>(&MyDeviceTaskListener::handle_download_task, this);
+		ch.registerTask<UploadTask>(&MyDeviceTaskListener::handle_upload_task, this);
+		ch.registerTask<DownloadTask>(&MyDeviceTaskListener::handle_download_task, this);
 	}
 	void handle_upload_task(std::unique_ptr<UploadTask> &upInst)
 	{
