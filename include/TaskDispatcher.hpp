@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TaskMapping.hpp"
+#include "detail/TaskMapping.hpp"
 #include "WorkerGroup.hpp"
 #include <typeindex>
 #include <map>

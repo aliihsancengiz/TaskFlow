@@ -28,7 +28,6 @@ struct taskMapping : taskMappingBase
 		}
 		else
 		{
-			std::cout << "Could not dispatch a task . It is a nullptr." << std::endl;
 			return false;
 		}
 	}
