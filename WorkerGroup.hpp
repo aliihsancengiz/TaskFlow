@@ -49,6 +49,6 @@ struct WorkerGroup
 
 private:
 	std::size_t number_of_workers;
-	std::map<std::size_t, std::unique_ptr<Worker>> workerMap;
+	std::map<std::size_t, std::shared_ptr<Worker>> workerMap;
 	SchedulePolicy &_policy;
 };
