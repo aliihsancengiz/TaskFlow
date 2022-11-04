@@ -1,8 +1,7 @@
 #include <iostream>
 #include <functional>
 #include <memory>
-#include "WorkerGroup.hpp"
-#include "TaskListener.hpp"
+#include "include/TaskListener.hpp"
 
 struct UploadTask : taskBase
 {
