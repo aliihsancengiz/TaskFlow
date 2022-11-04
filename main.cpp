@@ -35,11 +35,11 @@ struct MyDeviceTaskListener : TaskListenerBase
 		ch.registerTask<UploadTask>(&MyDeviceTaskListener::handle_upload_task, this);
 		ch.registerTask<DownloadTask>(&MyDeviceTaskListener::handle_download_task, this);
 	}
-	void handle_upload_task(std::unique_ptr<UploadTask> &upInst)
+	void handle_upload_task(std::shared_ptr<UploadTask> &upInst)
 	{
 		upInst->upload_task();
 	}
-	void handle_download_task(std::unique_ptr<DownloadTask> &downInst)
+	void handle_download_task(std::shared_ptr<DownloadTask> &downInst)
 	{
 		downInst->download_task();
 	}
@@ -51,8 +51,8 @@ int main()
 	TaskChannel ch;
 	MyDeviceTaskListener listener(ch);
 
-	listener.get_channel().push(std::make_unique<UploadTask>("my_server_url:/upload/image/", "firmware.bin"));
-	listener.get_channel().push(std::make_unique<DownloadTask>("my_server_url:/download/image/", "firmware.bin"));
+	listener.get_channel().push(std::make_shared<UploadTask>("my_server_url:/upload/image/", "firmware.bin"));
+	listener.get_channel().push(std::make_shared<DownloadTask>("my_server_url:/download/image/", "firmware.bin"));
 
 	return 0;
 }
