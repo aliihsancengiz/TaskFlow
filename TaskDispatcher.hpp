@@ -1,11 +1,13 @@
 #pragma once
 
 #include "TaskMapping.hpp"
+#include "WorkerGroup.hpp"
 #include <typeindex>
 #include <map>
 
 struct TaskDispatcher
 {
+	TaskDispatcher(WorkerGroup &wg) : _wg(wg) {}
 	template <typename type_of_task>
 	void registerTask(std::function<void(std::shared_ptr<type_of_task> &)> handler)
 	{
@@ -25,9 +27,12 @@ struct TaskDispatcher
 	{
 		std::shared_ptr<taskBase> tmp(std::move(task));
 		const auto type_idx = std::type_index(typeid(type_of_task));
-		functionMap[type_idx]->dispatch(tmp);
+		auto ptr = functionMap[type_idx];
+		_wg.dispatch([ptr, tmp = std::move(tmp)](int id) mutable
+					 { ptr->dispatch(tmp); });
 	}
 
 private:
 	std::map<std::type_index, std::shared_ptr<taskMappingBase>> functionMap;
+	WorkerGroup &_wg;
 };

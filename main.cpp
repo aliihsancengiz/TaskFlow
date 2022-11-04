@@ -47,8 +47,9 @@ struct MyDeviceTaskListener : TaskListenerBase
 
 int main()
 {
-
-	TaskChannel ch;
+	DefaultSchedulerPolicy policy;
+	WorkerGroup wg(policy);
+	TaskChannel ch(wg);
 	MyDeviceTaskListener listener(ch);
 
 	listener.get_channel().push(std::make_shared<UploadTask>("my_server_url:/upload/image/", "firmware.bin"));
