@@ -12,6 +12,17 @@ struct ErrorBase
 template <typename Ok, typename Error>
 struct Result
 {
+	Result() = default;
+	Result(Ok ok)
+	{
+		set_value(ok);
+	}
+
+	Result(Error err)
+	{
+		set_error(err);
+	}
+
 	void set_value(Ok ok)
 	{
 		mRes = ok;
@@ -25,7 +36,7 @@ struct Result
 
 	std::optional<Ok> get_result()
 	{
-		if (is_okey())
+		if (is_value())
 		{
 			return std::get<Ok>(mRes);
 		}
@@ -41,7 +52,7 @@ struct Result
 		return std::nullopt;
 	}
 
-	bool is_okey() { return mRes.index() == 0; }
+	bool is_value() { return mRes.index() == 0; }
 	bool is_error() { return mRes.index() == 1; }
 
 private:
