@@ -85,9 +85,9 @@ TEST(Result, CanGetValue)
 	EXPECT_TRUE(frameRes.is_value());
 	EXPECT_FALSE(frameRes.is_error());
 
-	std::optional<Frame> frame = frameRes.get_value();
+	Option<Frame> frame = frameRes.get_value();
 	EXPECT_TRUE(frame);
-	EXPECT_EQ(frame.value().frameData, 54);
+	EXPECT_EQ(frame.unwrap().frameData, 54);
 }
 
 TEST(Result, CanGetError)
@@ -100,7 +100,7 @@ TEST(Result, CanGetError)
 	EXPECT_TRUE(frameRes.is_error());
 	EXPECT_FALSE(frameRes.is_value());
 
-	std::optional<FrameError> error = frameRes.get_error();
+	Option<FrameError> error = frameRes.get_error();
 	EXPECT_TRUE(error);
-	EXPECT_TRUE(error.value().describe_what() == std::string("Frame Error occured"));
+	EXPECT_TRUE(error.unwrap().describe_what() == std::string("Frame Error occured"));
 }

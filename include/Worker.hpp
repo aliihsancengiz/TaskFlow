@@ -6,6 +6,7 @@
 #include <condition_variable>
 #include <mutex>
 #include <thread>
+#include "Option.hpp"
 
 using Work = std::function<void(std::size_t)>;
 
@@ -47,7 +48,7 @@ private:
     {
         while (!is_stop)
         {
-            Work w = nullptr;
+            Option<Work> w;
             {
                 std::unique_lock<std::mutex> lock(work_queue_mutex);
                 work_queue_notifier.wait(lock, [this]()
@@ -55,13 +56,13 @@ private:
                 if (!is_stop)
                 {
 
-                    w = work_queue.front();
+                    w.set_some(work_queue.front());
                     work_queue.pop();
                 }
             }
-            if (!is_stop && w != nullptr)
+            if (!is_stop && w.is_some())
             {
-                w(_id);
+                w.unwrap()(_id);
             }
         }
     }

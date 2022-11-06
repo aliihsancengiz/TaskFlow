@@ -1,8 +1,8 @@
 #pragma once
 #include <variant>
 #include <type_traits>
-#include <optional>
 #include <string>
+#include "Option.hpp"
 
 struct ErrorBase
 {
@@ -38,22 +38,22 @@ public:
 		mRes = err;
 	}
 
-	std::optional<Ok> get_value()
+	Option<Ok> get_value()
 	{
 		if (is_value())
 		{
 			return std::get<Ok>(mRes);
 		}
-		return std::nullopt;
+		return {};
 	}
 
-	std::optional<Error> get_error()
+	Option<Error> get_error()
 	{
 		if (is_error())
 		{
 			return std::get<Error>(mRes);
 		}
-		return std::nullopt;
+		return {};
 	}
 
 private:
