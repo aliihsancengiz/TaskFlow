@@ -26,25 +26,27 @@ struct WorkerGroup
 	{
 	}
 
-	void dispatch(Work &&work)
+	TokenPtr dispatch(Work &&work)
 	{
 		auto wid = _policy.get_next_id();
 
 		if (workerMap.find(wid) != workerMap.end())
 		{
-			workerMap[wid]->dispatch(std::forward<Work>(work));
+			return workerMap[wid]->dispatch(std::forward<Work>(work));
 		}
+		return {};
 	}
 
 	template <typename Func, typename... Args>
-	void dispatch_with_args(Func &&work, Args &&...args)
+	TokenPtr dispatch_with_args(Func &&work, Args &&...args)
 	{
 		auto wid = _policy.get_next_id();
 
 		if (workerMap.find(wid) != workerMap.end())
 		{
-			workerMap[wid]->dispatch(std::forward<Func>(work), std::forward<Args>(args)...);
+			return workerMap[wid]->dispatch(std::forward<Func>(work), std::forward<Args>(args)...);
 		}
+		return {};
 	}
 
 private:
