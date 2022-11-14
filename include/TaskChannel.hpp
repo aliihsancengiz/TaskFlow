@@ -20,9 +20,9 @@ struct TaskChannel
 		dispatcher->registerTask<type_of_task, object_type>(handler, object);
 	}
 	template <typename type_of_task>
-	void push(std::shared_ptr<type_of_task> &&task)
+	TokenPtr push(std::shared_ptr<type_of_task> &&task)
 	{
-		dispatcher->dispatch<type_of_task>(std::forward<std::shared_ptr<type_of_task>>(task));
+		return dispatcher->dispatch<type_of_task>(std::forward<std::shared_ptr<type_of_task>>(task));
 	}
 
 private:

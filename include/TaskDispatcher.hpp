@@ -23,12 +23,12 @@ struct TaskDispatcher
 	}
 
 	template <typename type_of_task>
-	void dispatch(std::shared_ptr<type_of_task> &&task)
+	TokenPtr dispatch(std::shared_ptr<type_of_task> &&task)
 	{
 		std::shared_ptr<taskBase> tmp(std::move(task));
 		const auto type_idx = std::type_index(typeid(type_of_task));
 		auto ptr = functionMap[type_idx];
-		_wg.dispatch([ptr, tmp = std::move(tmp)](int id) mutable
+		return _wg.dispatch([ptr, tmp = std::move(tmp)](int id) mutable
 					 { ptr->dispatch(tmp); });
 	}
 
