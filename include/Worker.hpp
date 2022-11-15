@@ -10,7 +10,7 @@
 #include "Token.hpp"
 
 using Work = std::function<void(std::size_t)>;
-using TokenType = Token<bool>;
+using TokenType = Token<>;
 using TokenPtr = std::shared_ptr<TokenType>;
 
 struct Worker
@@ -70,7 +70,7 @@ private:
 			if (!is_stop && w.is_some())
 			{
 				w.unwrap().second(_id);
-				w.unwrap().first->set(true);
+				w.unwrap().first->set();
 			}
 		}
 	}
