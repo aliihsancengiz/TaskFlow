@@ -1,0 +1,30 @@
+name: TaskFlow Pipeline
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Dependencies
+      run: | 
+        git clone https://github.com/google/googletest.git
+        cd googletest && mkdir build && cd build
+        cmake .. && make
+        sudo make install
+
+    - name: Build
+      run: |
+        ./scripts/build.sh
+
+    - name: Test
+      run: |
+        ./build/tests/run_tests
+    
