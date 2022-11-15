@@ -4,11 +4,11 @@
 
 TEST(Token, canSetToken)
 {
-	Token<int> token;
+	Token<> token;
 	std::thread t([&token]() mutable
 	{
 		std::this_thread::sleep_for(std::chrono::seconds(3));
-		token.set(45);
+		token.set();
 	});
 	t.detach();
 
