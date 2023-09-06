@@ -1,0 +1,36 @@
+Language: Cpp
+BasedOnStyle: WebKit
+UseTab: Always
+IndentWidth: 4
+AlignTrailingComments: false
+ColumnLimit: 180
+BreakBeforeBraces: Allman
+IndentCaseLabels: true
+AccessModifierOffset: -4
+AllowAllParametersOfDeclarationOnNextLine: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+NamespaceIndentation: None
+BinPackParameters: false
+BinPackArguments: false
+PointerBindsToType: true
+AlignAfterOpenBracket: DontAlign
+AlwaysBreakTemplateDeclarations: true
+AllowShortBlocksOnASingleLine: true
+ContinuationIndentWidth: '4'
+TabWidth: '4'
+BreakConstructorInitializers: AfterColon
+ConstructorInitializerIndentWidth: '4'
+Cpp11BracedListStyle: true
+AllowShortIfStatementsOnASingleLine: false
+AlignEscapedNewlines: DontAlign
+BreakBeforeBinaryOperators: None
+PointerAlignment: Left
+AllowShortFunctionsOnASingleLine: None
+
+SortIncludes: true
+IncludeCategories:
+  - Regex:           '<'
+    Priority: 1
+  - Regex:           '"'
+    Priority: 2
+

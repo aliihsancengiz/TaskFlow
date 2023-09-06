@@ -1,17 +1,19 @@
 #pragma once
 
-#include <iostream>
 #include <functional>
+#include <iostream>
 #include <memory>
-#include "WorkerGroup.hpp"
-#include "TaskListener.hpp"
 #include <mutex>
+#include "TaskListener.hpp"
+#include "executor/ThreadPool.hpp"
 
 std::mutex m;
 
 struct UploadTask : taskBase
 {
-	UploadTask(std::string url, std::string filename) : _url(url), _filename(filename) {}
+	UploadTask(std::string url, std::string filename) : _url(url), _filename(filename)
+	{
+	}
 	void upload_task()
 	{
 		std::lock_guard<std::mutex> g(m);
@@ -24,7 +26,9 @@ private:
 
 struct DownloadTask : taskBase
 {
-	DownloadTask(std::string url, std::string filename) : _url(url), _filename(filename) {}
+	DownloadTask(std::string url, std::string filename) : _url(url), _filename(filename)
+	{
+	}
 	void download_task()
 	{
 		std::lock_guard<std::mutex> g(m);
@@ -37,16 +41,16 @@ private:
 
 struct DeviceFwUploadTaskListener : TaskListenerBase
 {
-	DeviceFwUploadTaskListener(TaskChannel &ch) : TaskListenerBase(ch)
+	DeviceFwUploadTaskListener(TaskChannel& ch) : TaskListenerBase(ch)
 	{
 		ch.registerTask<UploadTask>(&DeviceFwUploadTaskListener::handle_upload_task, this);
 		ch.registerTask<DownloadTask>(&DeviceFwUploadTaskListener::handle_download_task, this);
 	}
-	void handle_upload_task(std::shared_ptr<UploadTask> &upInst)
+	void handle_upload_task(std::shared_ptr<UploadTask>& upInst)
 	{
 		upInst->upload_task();
 	}
-	void handle_download_task(std::shared_ptr<DownloadTask> &downInst)
+	void handle_download_task(std::shared_ptr<DownloadTask>& downInst)
 	{
 		downInst->download_task();
 	}
@@ -87,5 +91,3 @@ struct DataTransmittedEvent : taskBase
 		std::cout << "on DataTransmitted Event" << std::endl;
 	}
 };
-
-

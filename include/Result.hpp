@@ -1,7 +1,7 @@
 #pragma once
-#include <variant>
-#include <type_traits>
 #include <string>
+#include <type_traits>
+#include <variant>
 #include "Option.hpp"
 
 struct ErrorBase
@@ -13,47 +13,52 @@ template <typename Ok, typename Error>
 struct Result
 {
 public:
-	Result() = default;
-	Result(Ok ok)
+	explicit Result() = default;
+	explicit Result(Ok ok)
 	{
 		set_value(ok);
 	}
 
-	Result(Error err)
+	explicit Result(Error err)
 	{
 		set_error(err);
 	}
 
-	bool is_value() { return mRes.index() == 0; }
-	bool is_error() { return mRes.index() == 1; }
+	bool is_value() const
+	{
+		return mRes.index() == 0;
+	}
+	bool is_error() const
+	{
+		return mRes.index() == 1;
+	}
 
 	void set_value(Ok ok)
 	{
 		mRes = ok;
 	}
 
-	std::enable_if_t<std::is_base_of<ErrorBase, Error>::value>
-	set_error(Error err)
+	std::enable_if_t<std::is_base_of<ErrorBase, Error>::value> set_error(Error err)
 	{
 		mRes = err;
 	}
 
-	Option<Ok> get_value()
+	auto get_value() const
 	{
 		if (is_value())
 		{
-			return std::get<Ok>(mRes);
+			return Option<Ok>(std::get<Ok>(mRes));
 		}
-		return {};
+		return Option<Ok>();
 	}
 
-	Option<Error> get_error()
+	auto get_error() const
 	{
 		if (is_error())
 		{
-			return std::get<Error>(mRes);
+			return Option<Error>(std::get<Error>(mRes));
 		}
-		return {};
+		return Option<Error>();
 	}
 
 private:
