@@ -1,7 +1,7 @@
 #pragma once
-
-#include <shared_mutex>
+#include <memory>
 #include <atomic>
+#include <shared_mutex>
 #include "Option.hpp"
 
 template <typename mutex_type = std::shared_mutex, typename guard_type = std::lock_guard<mutex_type>>
@@ -13,7 +13,9 @@ struct Token
 	{
 		_ret.reset();
 	}
-	~Token() {}
+	~Token()
+	{
+	}
 
 	void set()
 	{
@@ -41,9 +43,7 @@ struct Token
 
 	void wait()
 	{
-		while (!_ret.is_some())
-		{
-		}
+		while (!_ret.is_some()) { }
 	}
 
 	operator bool()

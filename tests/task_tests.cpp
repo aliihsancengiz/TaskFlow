@@ -28,16 +28,16 @@ size_t Task2::taskCounter = 0;
 
 struct DummyTaskListener : TaskListenerBase
 {
-	DummyTaskListener(TaskChannel &ch) : TaskListenerBase(ch)
+	DummyTaskListener(TaskChannel& ch) : TaskListenerBase(ch)
 	{
 		ch.registerTask<Task1>(&DummyTaskListener::handle_task1, this);
 		ch.registerTask<Task2>(&DummyTaskListener::handle_task2, this);
 	}
-	void handle_task1(std::shared_ptr<Task1> &task)
+	void handle_task1(std::shared_ptr<Task1>& task)
 	{
 		task->do_task1();
 	}
-	void handle_task2(std::shared_ptr<Task2> &task)
+	void handle_task2(std::shared_ptr<Task2>& task)
 	{
 		task->do_task2();
 	}
@@ -46,7 +46,7 @@ struct DummyTaskListener : TaskListenerBase
 TEST(TaskTestFixture, canDispatchTasks)
 {
 	DefaultSchedulerPolicy policy;
-	WorkerGroup wg(policy);
+	std::shared_ptr<ThreadPool> wg = std::make_shared<ThreadPool>(policy);
 	TaskChannel ch(wg);
 	DummyTaskListener listener(ch);
 

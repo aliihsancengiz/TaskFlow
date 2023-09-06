@@ -5,9 +5,9 @@
 template <typename Value>
 struct Option
 {
-	Option() = default;
+	explicit Option() = default;
 
-	Option(Value v)
+	explicit Option(Value v)
 	{
 		mValue = v;
 	}
