@@ -46,7 +46,7 @@ struct DummyTaskListener : TaskListenerBase
 TEST(TaskTestFixture, canDispatchTasks)
 {
 	DefaultSchedulerPolicy policy;
-	std::shared_ptr<ThreadPool> wg = std::make_shared<ThreadPool>(policy);
+	std::shared_ptr<ThreadPoolExecutor> wg = std::make_shared<ThreadPoolExecutor>(policy);
 	TaskChannel ch(wg);
 	DummyTaskListener listener(ch);
 

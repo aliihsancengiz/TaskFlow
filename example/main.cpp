@@ -50,17 +50,23 @@ struct DeviceEventListener : TaskListenerBase
 int main()
 {
 	DefaultSchedulerPolicy policy;
-	std::shared_ptr<ThreadPool> wg = std::make_shared<ThreadPool>(policy);
-	TaskChannel ch(wg);
-	DeviceFwUploadTaskListener listener(ch);
+	auto executor = std::make_shared<ThreadPoolExecutor>(policy);
+	TaskChannel ch(executor);
+	DeviceFwUploadTaskListener deviceListener(ch);
 	DeviceEventListener evListener(ch);
+	std::vector<TokenPtr> listOfToken;
 
-	listener.get_channel().push(std::make_shared<UploadTask>("my_server_url:/upload/image/", "firmware.bin"));
-	listener.get_channel().push(std::make_shared<DownloadTask>("my_server_url:/download/image/", "firmware.bin"));
-	evListener.get_channel().push(std::make_shared<OpenedEvent>());
-	evListener.get_channel().push(std::make_shared<ClosedEvent>());
-	evListener.get_channel().push(std::make_shared<DataReceivedEvent>());
-	evListener.get_channel().push(std::make_shared<DataTransmittedEvent>());
+	listOfToken.push_back(deviceListener.get_channel().push(std::make_shared<UploadTask>("my_server_url:/upload/image/", "firmware.bin")));
+	listOfToken.push_back(deviceListener.get_channel().push(std::make_shared<DownloadTask>("my_server_url:/download/image/", "firmware.bin")));
+	listOfToken.push_back(evListener.get_channel().push(std::make_shared<OpenedEvent>()));
+	listOfToken.push_back(evListener.get_channel().push(std::make_shared<ClosedEvent>()));
+	listOfToken.push_back(evListener.get_channel().push(std::make_shared<DataReceivedEvent>()));
+	listOfToken.push_back(evListener.get_channel().push(std::make_shared<DataTransmittedEvent>()));
+
+	for (size_t i = 0; i < listOfToken.size(); i++)
+	{
+		while (!listOfToken[i]->is_set()) { }
+	}
 
 	return 0;
 }

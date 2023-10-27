@@ -86,9 +86,9 @@ private:
 
 } // namespace detail
 
-struct ThreadPool final : public executor::detail::ExecutorInterface
+struct ThreadPoolExecutor final : public executor::detail::ExecutorInterface
 {
-	ThreadPool(SchedulePolicy& policy, std::size_t worker_size = 4) : number_of_workers(worker_size), _policy(policy)
+	ThreadPoolExecutor(SchedulePolicy& policy, std::size_t worker_size = 4) : number_of_workers(worker_size), _policy(policy)
 	{
 		for (size_t i = 0; i < number_of_workers; i++)
 		{
@@ -103,7 +103,7 @@ struct ThreadPool final : public executor::detail::ExecutorInterface
 		}
 		_policy.set_worker_id_list(wids);
 	}
-	virtual ~ThreadPool() override
+	virtual ~ThreadPoolExecutor() override
 	{
 	}
 

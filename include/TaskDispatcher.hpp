@@ -2,7 +2,7 @@
 
 #include <map>
 #include <typeindex>
-#include "executor/ThreadPool.hpp"
+#include "executor/ThreadPoolExecutor.hpp"
 #include "detail/TaskMapping.hpp"
 
 struct TaskDispatcher
