@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "SchedulePolicy.hpp"
+#include "Task/SchedulePolicy.hpp"
 
 TEST(SchedulePolicy, RoundRobinTest)
 {

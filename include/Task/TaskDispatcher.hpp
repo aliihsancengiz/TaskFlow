@@ -2,8 +2,8 @@
 
 #include <map>
 #include <typeindex>
-#include "executor/ThreadPoolExecutor.hpp"
-#include "detail/TaskMapping.hpp"
+#include "Task/ThreadPoolExecutor.hpp"
+#include "Task/detail/TaskMapping.hpp"
 
 struct TaskDispatcher
 {
